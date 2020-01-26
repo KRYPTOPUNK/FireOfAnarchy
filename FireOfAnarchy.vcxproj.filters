@@ -51,6 +51,9 @@
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>imGUI</Filter>
     </ClCompile>
+    <ClCompile Include="CSGOClasses.cpp">
+      <Filter>hacks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
@@ -91,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="imstb_truetype.h">
       <Filter>imGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="CSGOClasses.h">
+      <Filter>hacks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -15,6 +15,21 @@ void HacksHandler() // обработчик для читов
 			GlowHack(pEntityList, pGlowObjectManager, pLocalPlayer);// функция чита(ГловХак)
 			Sleep(10);
 		}
+		if (FunctionEnableFlags::bRadarHackActivated)
+		{
+			ptrdiff_t client = (ptrdiff_t)GetModuleHandle(TEXT("client_panorama.dll")); //получаем клиент
+			ptrdiff_t pEntityList = (client + hazedumper::signatures::dwEntityList);//получаем *Энтитилист
+			RadarHack(client, pEntityList);
+			Sleep(1);
+		}
+		if (FunctionEnableFlags::bNoFlashHack)
+		{
+			ptrdiff_t client = (ptrdiff_t)GetModuleHandle(TEXT("client_panorama.dll")); //получаем клиент
+			ptrdiff_t pLocalPlayer = (client + hazedumper::signatures::dwLocalPlayer); //получаем *локалплеера
+			NoFlashHack(pLocalPlayer);
+			Sleep(1);
+		}
+
 	}
 
 }

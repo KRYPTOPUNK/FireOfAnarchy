@@ -2,6 +2,7 @@
 #include "csgo.h"
 #include "SDK.h"
 #include "Menu.h"
+#include "CSGOClasses.h"
 float GlowColorsTeammate[4] = { 0.f,0.5f,1.f,1.7f };																		//массив цветов для тиммейтов
 float GlowColorsEnemy[4] = { 1.f, 0.1f, 0.f, 1.7f };																		//массив цветов для врагов
 
@@ -49,4 +50,38 @@ void GlowHack(ptrdiff_t pEntityList, ptrdiff_t pGlowObjectManager, ptrdiff_t pLo
 			}
 		}
 	
+}
+void RadarHack(ptrdiff_t client, ptrdiff_t pEntityList)
+{
+	ptrdiff_t EntityList = *reinterpret_cast<ptrdiff_t*>(pEntityList);
+	CBaseEntity* CurrEntity = nullptr;
+	if (EntityList != NULL)
+	{
+		ptrdiff_t pEntity = NULL;
+		for (short unsigned i = 0; i < 64; i++)
+		{
+			pEntity = *reinterpret_cast<ptrdiff_t*>(client + (hazedumper::signatures::dwEntityList + i * 0x10));
+			if (pEntity == NULL) continue;
+			CurrEntity = reinterpret_cast<CBaseEntity*>(pEntity);
+			if (CurrEntity->IsDormant) continue;
+			else if (CurrEntity->TeamNum != 2 && CurrEntity->TeamNum != 3) continue;
+			else if (CurrEntity->Health <= 0) continue;
+			CurrEntity->Spotted = true;
+			CurrEntity->SpottedByMask = true;
+		}
+	}
+	
+}
+void NoFlashHack(ptrdiff_t pLocalPlayer)
+{
+	
+	ptrdiff_t dereferenceLocalPlayer = *reinterpret_cast<ptrdiff_t*>(pLocalPlayer);
+	LocalPlayer* lcplayer = reinterpret_cast<LocalPlayer*>(dereferenceLocalPlayer);
+	int duration = 0;
+	if (lcplayer != NULL)
+	{
+		
+		if (lcplayer->GetFlashDuration() > 0)
+			lcplayer->SetFlashDuration(duration);
+	}
 }

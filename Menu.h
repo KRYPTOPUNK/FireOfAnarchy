@@ -12,8 +12,10 @@ typedef LRESULT(CALLBACK* WNDPROC)(HWND, UINT, WPARAM, LPARAM);										//дл�
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);	// Экспортируем хендлер для imgui
 namespace FunctionEnableFlags
 {
-	bool							bEspActivated = false;																	//состояние ESP(включить\выключить)
-	bool							bShowMenu = true;																		// переменная для хранения состояния меню (показывать\не показывать)
+	bool							bEspActivated			= false;																	//состояние ESP(включить\выключить)
+	bool							bShowMenu				= true;																		// переменная для хранения состояния меню (показывать\не показывать)
+	bool							bRadarHackActivated		= false;																	//состояние RadarHack
+	bool							bNoFlashHack			= false;
 
 };
 extern float GlowColorsTeammate[4];
@@ -108,6 +110,11 @@ HRESULT APIENTRY hkPresent(IDirect3DDevice9* pDevice) // ХУК ОТРИСОВК
 				
 				ImGui::TreePop(); // закрытие вкладки
 			}
+			ImGui::Checkbox(u8"Включить РадарХак", &FunctionEnableFlags::bRadarHackActivated);
+			ImGui::Checkbox(u8"Включить NoFlash-Хак", &FunctionEnableFlags::bNoFlashHack);
+
+
+
 			
 		
 			
