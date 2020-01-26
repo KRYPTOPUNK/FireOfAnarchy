@@ -1,0 +1,3 @@
+﻿  maindll.cpp
+imgui.obj : warning LNK4075: не учитывается "/EDITANDCONTINUE" из-за спецификации "/INCREMENTAL:NO"
+  FireOfAnarchy.vcxproj -> c:\workspace\FireOfAnarchy[CSGO_CHEAT]\Debug\FireOfAnarchy.dll
