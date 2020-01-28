@@ -1,38 +1,32 @@
 #include "CSGOClasses.h"
 #include <Windows.h>
 
-LocalPlayer* LocalPlayer::Get()
+LocalPlayers* LocalPlayers::Get()
 {
-	static ptrdiff_t clientBase = (ptrdiff_t)GetModuleHandle(TEXT("client_panorama.dll"));
-	static LocalPlayer* localPlayer = (LocalPlayer*)(clientBase + hazedumper::signatures::dwLocalPlayer);
+	static ptrdiff_t clientBase = reinterpret_cast<ptrdiff_t>(GetModuleHandle(TEXT("client_panorama.dll")));
+	static LocalPlayers* localPlayer = reinterpret_cast<LocalPlayers*>(clientBase + hazedumper::signatures::dwLocalPlayer);
 	return localPlayer;
 }
 
-int* LocalPlayer::GetHealth()
+int* LocalPlayers::GetHealth()
 {
 	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_iHealth));
 }
 
-int* LocalPlayer::GetTeam()
+int* LocalPlayers::GetTeam()
 {
 	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_iTeamNum));
 }
 
-int* LocalPlayer::GetFlags()
+int* LocalPlayers::GetFlags()
 {
 	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_fFlags));
 }
-int* LocalPlayer::GetFlashDuration()
+int* LocalPlayers::GetFlashDuration()
 {
 	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_flFlashDuration));
 }
-int* LocalPlayer::SetFlashDuration(int Duration)
-{
-	int* flashDuration = LocalPlayer::GetFlashDuration();
-	flashDuration = reinterpret_cast<int*>(Duration);
-	return flashDuration;
 
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Player* Player::GetPlayer(int index)
@@ -50,44 +44,39 @@ int* Player::GetMaxPlayer()
 }
 
 
-int* Player::GetHealth()
+//int* Player::GetHealth()
+//{
+//	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_iHealth));
+//}
+//
+//int* Player::GetTeam()
+//{
+//	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_iTeamNum));
+//}
+//
+//int* Player::GetGlowIndex()
+//{
+//	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_iGlowIndex));
+//}
+//bool* Player::GetSpotted()
+//{
+//	return reinterpret_cast<bool*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_bSpotted));
+//}
+//
+//bool* Player::GetSpottedByMask()
+//{
+//	return reinterpret_cast<bool*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_bSpottedByMask));
+//}
+//
+//bool* Player::bGetDormant()
+//{
+//	return  reinterpret_cast<bool*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::signatures::m_bDormant));
+//}
+int Player::GetTeam()
 {
-	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_iHealth));
+	return TeamNum;
 }
-
-int* Player::GetTeam()
+int Player::GetGlowIndex()
 {
-	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_iTeamNum));
-}
-
-int* Player::GetGlowIndex()
-{
-	return reinterpret_cast<int*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_iGlowIndex));
-}
-bool* Player::GetSpotted()
-{
-	return reinterpret_cast<bool*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_bSpotted));
-}
-
-bool* Player::GetSpottedByMask()
-{
-	return reinterpret_cast<bool*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_bSpottedByMask));
-}
-
-bool Player::SetSpotted()
-{
-	bool Spotted = reinterpret_cast<bool*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_bSpotted));
-	Spotted = true;
-	return Spotted;
-};
-bool Player::SetSpottedByMask()
-{
-	bool SpottedByMask = reinterpret_cast<bool*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::netvars::m_bSpottedByMask));
-	SpottedByMask = true;
-	return SpottedByMask;
-
-}
-bool* Player::bGetDormant()
-{
-	return  reinterpret_cast<bool*>(*reinterpret_cast<ptrdiff_t*>(this + hazedumper::signatures::m_bDormant));
+	return GlowIndex;
 }

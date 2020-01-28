@@ -16,7 +16,7 @@ namespace FunctionEnableFlags
 	bool							bShowMenu				= true;																		// переменная для хранения состояния меню (показывать\не показывать)
 	bool							bRadarHackActivated		= false;																	//состояние RadarHack
 	bool							bNoFlashHack			= false;
-
+	bool							bBunnyHop				= false;
 };
 extern float GlowColorsTeammate[4];
 extern float GlowColorsEnemy[4];
@@ -112,6 +112,7 @@ HRESULT APIENTRY hkPresent(IDirect3DDevice9* pDevice) // ХУК ОТРИСОВК
 			}
 			ImGui::Checkbox(u8"Включить РадарХак", &FunctionEnableFlags::bRadarHackActivated);
 			ImGui::Checkbox(u8"Включить NoFlash-Хак", &FunctionEnableFlags::bNoFlashHack);
+			/*ImGui::Checkbox(u8"Включить распрыжку", &FunctionEnableFlags::bBunnyHop);*/
 
 
 

@@ -13,7 +13,7 @@ void HacksHandler() // обработчик для читов
 			ptrdiff_t pGlowObjectManager = (client + hazedumper::signatures::dwGlowObjectManager);//получаем *ГловОбжектМенеджер
 			ptrdiff_t pEntityList = (client + hazedumper::signatures::dwEntityList);//получаем *Энтитилист
 			GlowHack(pEntityList, pGlowObjectManager, pLocalPlayer);// функция чита(ГловХак)
-			Sleep(10);
+			Sleep(1);
 		}
 		if (FunctionEnableFlags::bRadarHackActivated)
 		{
@@ -29,6 +29,13 @@ void HacksHandler() // обработчик для читов
 			NoFlashHack(pLocalPlayer);
 			Sleep(1);
 		}
+		//if (FunctionEnableFlags::bBunnyHop)
+		//{
+		//	ptrdiff_t client = (ptrdiff_t)GetModuleHandle(TEXT("client_panorama.dll")); //получаем клиент
+		//	ptrdiff_t pLocalPlayer = (client + hazedumper::signatures::dwLocalPlayer); //получаем *локалплеера
+		//	BunnyHopHack(client, pLocalPlayer);
+		//	Sleep(1);
+		//}
 
 	}
 
