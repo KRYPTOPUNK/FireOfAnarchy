@@ -2,6 +2,47 @@
 #include "csgo.h"
 #include "SDK.h"
 #include "Menu.h"
+struct VectorInHacks
+{
+	float x;
+	float y;
+	float z;
+	VectorInHacks operator+(VectorInHacks d)
+	{
+		return { x + d.x, y + d.y, z + d.z };
+	}
+	VectorInHacks operator-(VectorInHacks d)
+	{
+		return { x - d.x, y - d.y, z - d.z };
+	}
+	VectorInHacks operator*(VectorInHacks d)
+	{
+
+	}
+	VectorInHacks operator*(float d)
+	{
+		return { x*d,y*d,z*d };
+	}
+	void Normalize()
+	{
+		while (y < -180)
+		{
+			y += 360;
+		}
+		while (y > 180)
+		{
+			y -= 360;
+		}
+		if (x > 89)
+		{
+			x = 89;
+		}
+		if (x < -89)
+		{
+			x = -89;
+		}
+	}
+};
 //#include "CSGOClasses.h"
 float GlowColorsTeammate[4] = { 0.f,0.5f,1.f,1.7f };																		//массив цветов для тиммейтов
 float GlowColorsEnemy[4] = { 1.f, 0.1f, 0.f, 1.7f };																		//массив цветов для врагов
@@ -83,26 +124,56 @@ void NoFlashHack(ptrdiff_t pLocalPlayer)
 	}
 
 }
-//void BunnyHopHack(ptrdiff_t client, ptrdiff_t pLocalPlayer)
-//{
-//	ptrdiff_t LocalPlayer = *reinterpret_cast<ptrdiff_t*>(pLocalPlayer);
-//	if (GetAsyncKeyState(VK_SPACE) && *reinterpret_cast<BYTE*>(LocalPlayer + hazedumper::netvars::m_fFlags) & (1 << 0))
-//	{
-//		*reinterpret_cast<int*>(client + hazedumper::signatures::dwForceJump) = 5;
-//	}
-//	else if (*reinterpret_cast<int*>(client + hazedumper::signatures::dwForceJump) >= 5)
-//	{
-//		*reinterpret_cast<int*>(client + hazedumper::signatures::dwForceJump) = 4;
-//	}
-//	if (*reinterpret_cast<int*>(LocalPlayer + hazedumper::netvars::m_fFlags & (1 << 0)))
-//	{
-//		if (GetAsyncKeyState(VK_SPACE) && *reinterpret_cast<int*>(((client)+hazedumper::signatures::dwForceJump)) == 4)
-//		{
-//			*reinterpret_cast<int*>((client)+hazedumper::signatures::dwForceJump) = 5;
-//		}
-//	}
-//	else if (*reinterpret_cast<int*>(client + hazedumper::signatures::dwForceJump) >= 5)
-//	{
-//		*reinterpret_cast<int*>(client + hazedumper::signatures::dwForceJump) = 4;
-//	}
-//}
+bool PlayerIsMoving(ptrdiff_t LocalPlayer)
+{
+	VectorInHacks playerVel = *reinterpret_cast<VectorInHacks*>(LocalPlayer + hazedumper::netvars::m_vecVelocity);
+	int vel = playerVel.x + playerVel.y + playerVel.z;
+	if (vel != 0)
+	{
+		return true;
+	}
+	else return false;
+}
+void BunnyHopHack(ptrdiff_t client, ptrdiff_t pLocalPlayer)																	// через некоторое время после работы вылетает игра
+{
+	ptrdiff_t LocalPlayer = *reinterpret_cast<ptrdiff_t*>(pLocalPlayer);
+	if (LocalPlayer == NULL)
+	{
+		while (LocalPlayer == NULL)
+		{
+			LocalPlayer = *reinterpret_cast<ptrdiff_t*>(pLocalPlayer);
+		}
+	}
+	BYTE LP_Flag = *reinterpret_cast<BYTE*>(LocalPlayer + hazedumper::netvars::m_fFlags);
+	if (PlayerIsMoving(LocalPlayer))
+	{
+		if (GetAsyncKeyState(VK_SPACE) && LP_Flag & (1 << 0))
+		{
+			*reinterpret_cast<int*>(client + hazedumper::signatures::dwForceJump) = 6;
+		}
+	}
+	
+}
+void RecoilControlSystem(ptrdiff_t client, ptrdiff_t engine,ptrdiff_t pLocalPlayer)
+{
+	ptrdiff_t exitKey = VK_F4;
+	ptrdiff_t LocalPlayer = *reinterpret_cast<ptrdiff_t*>(pLocalPlayer);
+	VectorInHacks* viewAngles = (VectorInHacks*)(*(ptrdiff_t*)(engine + hazedumper::signatures::dwClientState) + hazedumper::signatures::dwClientState_ViewAngles);
+	int* iShotFired = (int*)(LocalPlayer + hazedumper::netvars::m_iShotsFired);
+	VectorInHacks* aimPunchAngle = (VectorInHacks*)(LocalPlayer + hazedumper::netvars::m_aimPunchAngle);
+	VectorInHacks oldPunch{ 0,0,0 };
+	while (!GetAsyncKeyState(VK_F4))
+	{
+		VectorInHacks punchAngle = *aimPunchAngle * 2;
+		if (*iShotFired > 1)
+		{
+			VectorInHacks newAngle = *viewAngles + oldPunch - punchAngle;
+			newAngle.Normalize();
+			*viewAngles = newAngle;
+
+		}
+		oldPunch = punchAngle;
+	}
+	
+
+}
