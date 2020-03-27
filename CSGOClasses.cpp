@@ -1,5 +1,9 @@
-#include "CSGOClasses.h"
+#include<iostream>
+#include "csgo.h"
+#include "SDK.h"
+
 #include <Windows.h>
+#include "CSGOClasses.h"
 
 LocalPlayers* LocalPlayers::Get()
 {

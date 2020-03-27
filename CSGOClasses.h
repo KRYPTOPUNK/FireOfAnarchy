@@ -1,7 +1,5 @@
 #pragma once
-#include<iostream>
-#include "csgo.h"
-#include "SDK.h"
+
 
 class LocalPlayers
 {

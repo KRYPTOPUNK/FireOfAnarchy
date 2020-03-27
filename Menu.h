@@ -19,8 +19,8 @@ namespace FunctionEnableFlags
 	bool							bBunnyHop				= false;
 	bool							bRCSenable				= false;
 };
-extern float GlowColorsTeammate[4];
-extern float GlowColorsEnemy[4];
+//extern float GlowColorsTeammate[4];
+//extern float GlowColorsEnemy[4];
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////инициализируем переменные	
 bool							bInit						= false;																	// !Главная! инициализация (хук)

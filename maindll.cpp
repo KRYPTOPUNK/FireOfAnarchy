@@ -1,6 +1,8 @@
 ﻿#include <Windows.h>
+#include "csgo.h"
 #include "Utilities.h"
 #include "Menu.h"
+#include "hacks.h"
 extern DWORD WINAPI MenuInitialization(HMODULE hMod);
 void HacksHandler() // обработчик для читов
 {

@@ -54,6 +54,9 @@
     <ClCompile Include="CSGOClasses.cpp">
       <Filter>hacks</Filter>
     </ClCompile>
+    <ClCompile Include="hacks.cpp">
+      <Filter>hacks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utilities.h">
